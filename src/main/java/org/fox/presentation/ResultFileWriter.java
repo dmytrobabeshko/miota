@@ -41,7 +41,7 @@ public class ResultFileWriter {
                 sb.append(n).append(n).append(n);
                 sb.append(infoBuilder.getPathInfoWithURI(searchInfoHolder));
 
-                BufferedWriter writer = new BufferedWriter(new FileWriter(logFile, true));
+                BufferedWriter writer = new BufferedWriter(new FileWriter(logFile, false));
                 writer.write(sb.toString());
                 writer.close();
             }

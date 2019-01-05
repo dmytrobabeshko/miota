@@ -78,7 +78,6 @@ public class GraphBuilder {
 
             stages.add(completableFuture);
         }
-
         CompletableFuture.allOf(stages.toArray(new CompletableFuture[0])).join();
     }
 

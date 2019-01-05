@@ -94,14 +94,14 @@ public class Properties {
 
     @Value("${miota.workers:200}")
     private void setWorkers(String workers) {
-        this.workers = parseIntWithRange(workers, 10, 1000);
+        this.workers = parseIntWithRange(workers, 10, 500);
     }
 
     public Integer getConnectionErrorRetry() {
         return connectionErrorRetry;
     }
 
-    @Value("${miota.connectionErrorRetry:10}")
+    @Value("${miota.connectionErrorRetry:5}")
     private void setConnectionErrorRetry(String connectionErrorRetry) {
         this.connectionErrorRetry = parseIntWithRange(connectionErrorRetry, 1, 50);
     }
@@ -110,7 +110,7 @@ public class Properties {
         return httpNotFoundRetry;
     }
 
-    @Value("${miota.httpNotFoundRetry:2}")
+    @Value("${miota.httpNotFoundRetry:1}")
     public void setHttpNotFoundRetry(String httpNotFoundRetry) {
         this.httpNotFoundRetry = parseIntWithRange(httpNotFoundRetry, 1, 50);
     }
@@ -119,7 +119,7 @@ public class Properties {
         return connectionErrorRetryDelay;
     }
 
-    @Value("${miota.connectionErrorRetryDelay:100}")
+    @Value("${miota.connectionErrorRetryDelay:0}")
     private void setConnectionErrorRetryDelay(String connectionErrorRetryDelay) {
         this.connectionErrorRetryDelay = parseIntWithRange(connectionErrorRetryDelay, 0, 5000);
     }
@@ -128,7 +128,7 @@ public class Properties {
         return httpNotFoundRetryDelay;
     }
 
-    @Value("${miota.httpNotFoundRetryDelay:100}")
+    @Value("${miota.httpNotFoundRetryDelay:0}")
     private void setHttpNotFoundRetryDelay(String httpNotFoundRetryDelay) {
         this.httpNotFoundRetryDelay = parseIntWithRange(httpNotFoundRetryDelay, 0, 5000);
     }
@@ -146,10 +146,10 @@ public class Properties {
         int value = Integer.parseInt(string);
 
         if (value > max) {
-            value = 1000;
+            value = max;
         }
-        if (min < 10) {
-            value = 10;
+        if (value < min) {
+            value = min;
         }
 
         return value;

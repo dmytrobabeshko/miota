@@ -49,7 +49,7 @@ public class InfoBuilder {
                 searchInfoHolder.getConnectionErrorRetry(),
                 searchInfoHolder.getConnectionErrorRetryDelay(),
                 searchInfoHolder.getHttpNotFoundRetry(),
-                searchInfoHolder.getConnectionErrorRetryDelay()));
+                searchInfoHolder.getHttpNotFoundRetryDelay()));
 
         sb.append("Device:        " + searchInfoHolder.getDevice()).append(n);
         sb.append("Platform ID:   " + searchInfoHolder.getPlatformId()).append(n);

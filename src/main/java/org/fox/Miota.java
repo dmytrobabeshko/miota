@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import org.fox.domain.GraphBuilder;
 import org.fox.domain.Properties;
@@ -34,6 +35,8 @@ public class Miota {
             long startTime = System.currentTimeMillis();
             consoleUI.startUI(searchInfoHolder, startTime);
             graphBuilder.buildTree(uriBuilder, searchInfoHolder);
+
+            forkJoinPool.awaitQuiescence(1, TimeUnit.HOURS);
             consoleUI.stopUI(searchInfoHolder, startTime);
             resultFileWriter.writeResult(searchInfoHolder, startTime);
 

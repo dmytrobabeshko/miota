@@ -71,18 +71,18 @@ public class InfoBuilder {
 
         sb.append("Processed: " + processedCount).append(n);
         sb.append("Queued:    " + (queuedSubmissionCount + forkJoinPool.getActiveThreadCount())).append(n);
+        sb.append("Workers:   " + forkJoinPool.getActiveThreadCount()).append(n).append(n);
 
         List<Build> allBuilds = graphTransformer.getAllBuilds(searchInfoHolder);
         int found = allBuilds.size();
 
-        sb.append("Found:     " + (found)).append(n).append(n);
         sb.append("Speed:     " + (long) (processedCount / elapsedTime) + " builds/sec").append(n);
         sb.append("Elapsed:   " + (long) elapsedTime + " sec").append(n);
 
         if (found > 0) {
 
             sb.append(n).append(n);
-            sb.append("Builds found:").append(n);
+            sb.append("Builds found (" + found + "): ").append(n);
             sb.append(allBuilds.stream().
                     map(Object::toString).
                     collect(joining(" ")));

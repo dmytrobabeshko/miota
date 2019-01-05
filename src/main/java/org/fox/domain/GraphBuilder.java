@@ -3,9 +3,9 @@ package org.fox.domain;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.OK;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ForkJoinPool;
 
 import org.fox.http.RestTemplateWrapper;
@@ -50,7 +50,7 @@ public class GraphBuilder {
         Integer currentBuild = currentBuildVertex.getBuild();
         Integer maxBuild = currentBuild + searchInfoHolder.getBuildDelta();
         Graph<Build, DefaultEdge> graph = searchInfoHolder.getGraph();
-        List<CompletableFuture<Void>> stages = new ArrayList<>();
+        List<CompletableFuture<Void>> stages = new CopyOnWriteArrayList<>();
 
         for (Integer build = currentBuild + 1; build <= maxBuild; build++) {
             final Integer otaBuild = build;
@@ -78,7 +78,9 @@ public class GraphBuilder {
 
             stages.add(completableFuture);
         }
-        CompletableFuture.allOf(stages.toArray(new CompletableFuture[0])).join();
+
+        forkJoinPool.execute(() ->
+                CompletableFuture.allOf(stages.toArray(new CompletableFuture[0])));
     }
 
     @Nullable

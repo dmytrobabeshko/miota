@@ -3,6 +3,12 @@ plugins {
     id 'application'
 }
 
+jar {
+    manifest {
+        attributes 'Main-Class': 'org.fox.Miota'
+    }
+}
+
 repositories {
     mavenCentral()
 }

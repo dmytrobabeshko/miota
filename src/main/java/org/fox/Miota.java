@@ -40,9 +40,7 @@ public class Miota {
 
         } catch (Throwable e) {
             if (context != null) {
-                ScheduledExecutorService uiExecutor;
-                uiExecutor = context.getBean(ScheduledExecutorService.class);
-
+                ScheduledExecutorService uiExecutor = context.getBean(ScheduledExecutorService.class);
                 if (uiExecutor != null) {
                     uiExecutor.shutdown();
                 }

@@ -30,7 +30,6 @@ public class GraphTransformer {
 
         AllDirectedPaths<Build, DefaultEdge> allDirectedPaths = new AllDirectedPaths<>(graph);
 
-
         List<List<Build>> buildPaths = sinkBuilds.stream().
                 map(sinkBuild -> allDirectedPaths.getAllPaths(currentBuild, sinkBuild, true, null)).
                 map(graphPathList -> graphPathList.stream().
@@ -42,19 +41,14 @@ public class GraphTransformer {
         buildPaths.sort((o1, o2) -> {
             Iterator<Build> i1 = o1.iterator();
             Iterator<Build> i2 = o2.iterator();
-            for (; ; ) {
-                boolean n1 = i1.hasNext();
-                boolean n2 = i2.hasNext();
-
-                if (!n1 || !n2) {
-                    return 1;
-                }
-
+            while (i1.hasNext() || i2.hasNext()) {
                 int compareTo = i1.next().compareTo(i2.next());
                 if (compareTo != 0) {
                     return compareTo;
                 }
             }
+
+            return 1;
         });
 
         return buildPaths;

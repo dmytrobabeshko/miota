@@ -70,7 +70,7 @@ public class GraphBuilder {
 
                             graph.addEdge(currentBuildVertex, otaBuildVertex);
 
-                            if (!existing) {
+                            if (!existing && !otaBuildVertex.hasError()) {
                                 traverse(stages, searchInfoHolder, otaBuildVertex);
                             }
                         }

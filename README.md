@@ -1,2 +1,2 @@
 # miota
-Xiaomi TV OTA firmware tool
+Xiaomi TV OTA firmware searchtool

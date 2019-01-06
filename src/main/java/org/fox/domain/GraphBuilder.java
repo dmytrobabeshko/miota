@@ -1,11 +1,12 @@
 package org.fox.domain;
 
+import static java.util.concurrent.TimeUnit.DAYS;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.OK;
 
-import java.util.List;
+import java.util.Queue;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ForkJoinPool;
 
 import org.fox.http.RestTemplateWrapper;
@@ -42,15 +43,17 @@ public class GraphBuilder {
         Build currentBuildVertex = new Build(currentBuild);
 
         graph.addVertex(new Build(currentBuild));
-        traverse(searchInfoHolder, currentBuildVertex);
+        Queue<CompletableFuture<Void>> stages = new ConcurrentLinkedQueue<>();
+        traverse(stages, searchInfoHolder, currentBuildVertex);
+        forkJoinPool.awaitQuiescence(1, DAYS);
+        CompletableFuture.allOf(stages.toArray(new CompletableFuture[0])).join();
     }
 
-    private void traverse(@NotNull SearchInfoHolder searchInfoHolder, @NotNull final Build currentBuildVertex) {
+    private void traverse(Queue<CompletableFuture<Void>> stages, @NotNull SearchInfoHolder searchInfoHolder, @NotNull final Build currentBuildVertex) {
 
         Integer currentBuild = currentBuildVertex.getBuild();
         Integer maxBuild = currentBuild + searchInfoHolder.getBuildDelta();
         Graph<Build, DefaultEdge> graph = searchInfoHolder.getGraph();
-        List<CompletableFuture<Void>> stages = new CopyOnWriteArrayList<>();
 
         for (Integer build = currentBuild + 1; build <= maxBuild; build++) {
             final Integer otaBuild = build;
@@ -69,7 +72,7 @@ public class GraphBuilder {
                             graph.addEdge(currentBuildVertex, otaBuildVertex);
 
                             if (!existing) {
-                                traverse(searchInfoHolder, otaBuildVertex);
+                                traverse(stages, searchInfoHolder, otaBuildVertex);
                             }
                         }
 
@@ -78,9 +81,6 @@ public class GraphBuilder {
 
             stages.add(completableFuture);
         }
-
-        forkJoinPool.execute(() ->
-                CompletableFuture.allOf(stages.toArray(new CompletableFuture[0])));
     }
 
     @Nullable

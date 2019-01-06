@@ -16,7 +16,7 @@ public class ResultFileWriter {
     private static final String n = System.lineSeparator();
 
     @NotNull
-    private final static String logFile = System.getProperty("user.dir") + "output.txt";
+    private final static String logFile = System.getProperty("user.dir") + "\\output.txt";
 
     @NotNull
     private final InfoBuilder infoBuilder;

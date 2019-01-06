@@ -42,7 +42,7 @@ public class InfoBuilder {
     public StringBuilder getProperties(@NotNull SearchInfoHolder searchInfoHolder) {
         StringBuilder sb = new StringBuilder();
 
-        sb.append("MiOTA by Fox, Version 1.0\t");
+        sb.append("MiOTA by Fox, Version 1.0.1\t");
 
         sb.append(String.format("w: %s, ce: %s(%s), nf: %s(%s)" + n + n,
                 searchInfoHolder.getWorkers(),

@@ -10,7 +10,6 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ForkJoinPool;
 
 import org.fox.http.RestTemplateWrapper;
-import org.fox.http.UriBuilder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jgrapht.Graph;
@@ -37,7 +36,7 @@ public class GraphBuilder {
     }
 
 
-    public void buildTree(@NotNull UriBuilder uriBuilder, @NotNull SearchInfoHolder searchInfoHolder) {
+    public void buildTree(@NotNull SearchInfoHolder searchInfoHolder) {
         Graph<Build, DefaultEdge> graph = searchInfoHolder.getGraph();
         Integer currentBuild = searchInfoHolder.getCurrentBuild();
         Build currentBuildVertex = new Build(currentBuild);

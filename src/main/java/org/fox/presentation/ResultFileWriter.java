@@ -16,7 +16,7 @@ public class ResultFileWriter {
     private static final String n = System.lineSeparator();
 
     @NotNull
-    private final static String logFile = System.getProperty("user.dir") + "\\output.txt";
+    private final static String logFileTemplate = System.getProperty("user.dir") + "\\output_%s.txt";
 
     @NotNull
     private final InfoBuilder infoBuilder;
@@ -32,6 +32,7 @@ public class ResultFileWriter {
             if (searchInfoHolder.getGraph().vertexSet().size() > 1) {
 
                 System.out.println("Output");
+                String logFile = String.format(logFileTemplate, searchInfoHolder.getCurrentBuild());
                 System.out.println(logFile);
 
                 StringBuilder sb = infoBuilder.getProperties(searchInfoHolder);

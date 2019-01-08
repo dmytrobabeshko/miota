@@ -7,6 +7,7 @@ import java.util.concurrent.ForkJoinPool;
 
 import org.fox.domain.Build;
 import org.fox.domain.GraphTransformer;
+import org.fox.domain.MiotaVersionProvider;
 import org.fox.domain.SearchInfoHolder;
 import org.fox.http.UriBuilder;
 import org.jetbrains.annotations.NotNull;
@@ -29,12 +30,16 @@ public class InfoBuilder {
     @NotNull
     private final UriBuilder uriBuilder;
 
+    @NotNull
+    private final MiotaVersionProvider miotaVersionProvider;
+
 
     @Autowired
-    public InfoBuilder(@NotNull GraphTransformer graphTransformer, @NotNull ForkJoinPool forkJoinPool, @NotNull UriBuilder uriBuilder) {
+    public InfoBuilder(@NotNull GraphTransformer graphTransformer, @NotNull ForkJoinPool forkJoinPool, @NotNull UriBuilder uriBuilder, @NotNull MiotaVersionProvider miotaVersionProvider) {
         this.graphTransformer = graphTransformer;
         this.forkJoinPool = forkJoinPool;
         this.uriBuilder = uriBuilder;
+        this.miotaVersionProvider = miotaVersionProvider;
     }
 
 
@@ -42,8 +47,7 @@ public class InfoBuilder {
     public StringBuilder getProperties(@NotNull SearchInfoHolder searchInfoHolder) {
         StringBuilder sb = new StringBuilder();
 
-        sb.append("MiOTA by Fox, Version 1.0.2\t");
-
+        sb.append("MiOTA by Fox, Version " + miotaVersionProvider.getVersion()).append("\t");
         sb.append(String.format("w: %s, ce: %s(%s), nf: %s(%s)" + n + n,
                 searchInfoHolder.getWorkers(),
                 searchInfoHolder.getConnectionErrorRetry(),
